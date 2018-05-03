@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
 
         let swichtOnView   = ZLSwitchView.init(frame: CGRect.init(x: 10, y: 60, width: 60, height: 40));
-        
+        swichtOnView.isOn = true;
         self.view.addSubview(swichtOnView);
         
     }

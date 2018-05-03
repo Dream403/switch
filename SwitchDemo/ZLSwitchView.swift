@@ -36,17 +36,12 @@ class ZLSwitchView: UIControl {
     
      @objc open var  offText:String?  = "OFF"
 
-    @objc open var isOn:Bool{
-        get {
-            return isOnStatus;
-        }
-    }
 
-    fileprivate  var  isOnStatus:Bool = false;
+      var  isOn:Bool = false;
     
     
      fileprivate lazy var tapGesture:UITapGestureRecognizer = { [unowned self] in
-       
+
         let  tapGesture  = UITapGestureRecognizer.init(target: self, action: #selector(handleTapTapGesture(_:)));
         
         return tapGesture;
@@ -143,21 +138,21 @@ class ZLSwitchView: UIControl {
         
         self.addConstraintOffText();
         
-        guard isOnStatus else {
-            onContentView.frame  = CGRect.init(x: 0 , y: 0, width: contentWidth, height: contentHeight);
+        guard isOn else {
+            onContentView.frame  = CGRect.init(x: -1 * contentWidth , y: 0, width: contentWidth, height: contentHeight);
             
-            offContentView.frame  = CGRect.init(x: contentWidth, y: 0, width: contentWidth, height: contentHeight);
+            offContentView.frame  = CGRect.init(x: 0, y: 0, width: contentWidth, height: contentHeight);
             
-            midView.frame   = CGRect.init(x: contentWidth-margin - midSize, y: margin, width: midSize, height: midSize);
+            midView.frame   = CGRect.init(x: margin, y: margin, width: midSize, height: midSize);
             
             return;
         }
-        onContentView.frame  = CGRect.init(x: -1 * contentWidth , y: 0, width: contentWidth, height: contentHeight);
+    
+        onContentView.frame  = CGRect.init(x: 0 , y: 0, width: contentWidth, height: contentHeight);
         
-        offContentView.frame  = CGRect.init(x: 0, y: 0, width: contentWidth, height: contentHeight);
+        offContentView.frame  = CGRect.init(x: contentWidth, y: 0, width: contentWidth, height: contentHeight);
         
-        midView.frame   = CGRect.init(x: margin, y: margin, width: midSize, height: midSize);
-        
+        midView.frame   = CGRect.init(x: contentWidth-margin - midSize, y: margin, width: midSize, height: midSize);
     }
 }
 
@@ -214,7 +209,7 @@ fileprivate  extension ZLSwitchView{
         guard recognizer.state == UIGestureRecognizerState.ended else {
             return;
         }
-        setisOnStatusStatus(!isOnStatus, animated: true);
+        setisOnStatus(!isOn, animated: true);
         sendActions(for: UIControlEvents.valueChanged);
     }
     
@@ -226,7 +221,7 @@ fileprivate  extension ZLSwitchView{
         case .cancelled,.failed:
             self.scaleMidAnimation(false);
         case .ended:
-           setisOnStatusStatus(!isOnStatus, animated: true);
+           setisOnStatus(!isOn, animated: true);
             self.sendActions(for: UIControlEvents.valueChanged);
         default:
             print("\(recognizer.state)");
@@ -244,7 +239,7 @@ fileprivate extension ZLSwitchView{
         
         let tempMidFrame = midView.frame;
         
-        if isOnStatus {
+        if isOn {
             let x =    contentView.frame.width - midSize - margin  - offset;
             midView.frame = CGRect.init(x:x, y: 0, width: midSize  + offset, height: midSize)
             
@@ -271,14 +266,14 @@ fileprivate extension ZLSwitchView{
     
 
 }
-//MARK:setisOnStatusStatus
+//MARK:setisOnStatus
 extension ZLSwitchView {
     
-    @objc open  func setisOnStatusStatus ( _ on:Bool ,animated:Bool)  {
-        guard on != isOnStatus else {
+    @objc open  func setisOnStatus ( _ on:Bool ,animated:Bool)  {
+        guard on != isOn else {
             return;
         }
-        isOnStatus = on;
+        isOn = on;
         self.setNeedsLayout();
         //TODO: 忙了，暂时写到这里
     }
