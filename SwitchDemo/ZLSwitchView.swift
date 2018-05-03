@@ -18,26 +18,26 @@ fileprivate let SwitchMinWidth:CGFloat  = 51.0;
 
 class ZLSwitchView: UIControl {
 
-    @objc  open var onTintColor:UIColor = UIColor.purple;
+    @objc  @IBInspectable  open var onTintColor:UIColor = UIColor.purple;
     
-    @objc  open var offTinColor:UIColor = UIColor.orange;
+    @objc    @IBInspectable open var offTinColor:UIColor = UIColor.orange;
     
-    @objc  open var midTintColor:UIColor = UIColor.yellow;
+    @objc     @IBInspectable  open var midTintColor:UIColor = UIColor.yellow;
     
-    @objc open var onTextColor:UIColor = UIColor.black;
+    @objc   @IBInspectable open var onTextColor:UIColor = UIColor.black;
     
-    @objc open var onTextFont:UIFont = UIFont.systemFont(ofSize: 10);
+    @objc    @IBInspectable  open var onTextFont:UIFont = UIFont.systemFont(ofSize: 10);
     
-     @objc open var offTextColor:UIColor = UIColor.black;
+     @objc  @IBInspectable  open var offTextColor:UIColor = UIColor.black;
     
-     @objc open var offTextFont:UIFont = UIFont.systemFont(ofSize: 10);
+     @objc   @IBInspectable  open var offTextFont:UIFont = UIFont.systemFont(ofSize: 10);
     
-     @objc open var  onText:String? = "ON"
+     @objc    @IBInspectable open var  onText:String? = "ON"
     
-     @objc open var  offText:String?  = "OFF"
+     @objc    @IBInspectable open var  offText:String?  = "OFF"
 
 
-      var  isOn:Bool = false;
+    @objc   @IBInspectable   open var     isOn:Bool = false;
     
     
      fileprivate lazy var tapGesture:UITapGestureRecognizer = { [unowned self] in
@@ -108,9 +108,9 @@ class ZLSwitchView: UIControl {
         contentView .addSubview(midView);
         return midView;
         }()
-    
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder);
+        self.setupUI();
     }
 
     override init(frame: CGRect) {
@@ -118,6 +118,10 @@ class ZLSwitchView: UIControl {
         self.setupUI();
     }
     
+    override func awakeFromNib() {
+        super.awakeFromNib();
+        self.setupUI();
+    }
     override func layoutSubviews() {
         super.layoutSubviews();
         
